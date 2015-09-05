@@ -1,0 +1,28 @@
+#devlopment config
+db:
+  username: "bangzhu"
+  password: "bangzhu"
+  database: "bangzhu"
+  host: "121.43.158.216"
+  port: 3306
+
+redis:
+  host: 121.43.158.216
+  port: 6379
+
+ucpaas:
+  accountSid: 'dccb3bfd75b2f857b0d78cbffb461e82'
+  token: '2fa1b82929e7cdf2d96717f3ce143f49'
+  appId: 'a0af42a453ae49a2a68757d49d0b1c19'
+
+
+upyun:
+  bucket: 'bangzhu'
+  operator: 'iampm'
+  password: 'woshi2015'
+  endpoint: ''
+  apiVersion: 'legacy'
+
+
+#file server
+fileServer: http://bangzhu.b0.upaiyun.com

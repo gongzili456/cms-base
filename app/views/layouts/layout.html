@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<title>TOPDMC - 后台管理</title>
+<link rel="shortcut icon" href="/build/images/favicon.ico">
+<link rel="icon" sizes="32x32" href="/build/images/favicon-32x32.png">
+<link rel="icon" sizes="96x96" href="/build/images/favicon-96x96.png">
+<link rel="icon" sizes="16x16" href="/build/images/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="57x57" href="/build/images/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/build/images/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/build/images/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/build/images/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/build/images/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/build/images/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/build/images/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/build/images/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/build/images/apple-icon-180x180.png">
+<link rel="stylesheet" href="/build/css/mbs.css">
+<link rel="stylesheet" href="/build/css/font-awesome.min.css">
+<link rel="stylesheet" href="/build/css/main.css">
+</head>
+<body>
+<!-- header -->
+<header class="app-header">
+  <nav class="header-navbar clearfix">
+    <div class="hn-logo"><a href="/"><h1>TOPDMC</h1></a></div>
+    <ul class="hn-nav">
+      <li><a href="/invitations/">邀请码管理</a></li>
+      <li><a href="/visitors/">访客管理</a></li>
+      <li><a href="/manage_cp/">版权商管理</a></li>
+    </ul>
+  </nav>
+</header>
+<!-- end header -->
+
+<!-- content -->
+<section class="app-content">
+  <div class="content-inner">
+    {% block content %}
+
+    {% endblock %}
+  </div>
+  <!-- footer -->
+  <footer class="app-footer">
+    <p class="copyright">Copyright &copy; 2015 北京成为科技有限公司 京ICP备15018286号</p>
+  </footer>
+  <!-- end footer -->
+</section>
+<!-- end content -->
+<script src="/build/js/angular.min.js"></script>
+<script src="/build/js/angular-ui-router.min.js"></script>
+<script src="/build/js/jquery.min.js"></script>
+<script src="/build/js/common.js"></script>
+{% block js %}
+
+{% endblock %}
+</body>
+</html>

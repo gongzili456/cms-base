@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>BangZhu - 后台管理</title>
+
+  <link rel="stylesheet" href="/build/css/mbs.css">
+  <link rel="stylesheet" href="/build/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/build/css/main.css">
+</head>
+<body ng-app="signApp">
+
+<!-- content -->
+<div class="container" ui-view>
+
+
+</div>
+<!-- end content -->
+<script src="/build/js/jquery.min.js"></script>
+<script src="/build/js/angular.min.js"></script>
+<script src="/build/js/angular-ui-router.min.js"></script>
+<script src="/build/js/common.js"></script>
+</body>
+</html>
+
+
+<script>
+  angular.module('signApp', ['ui.router'])
+    .controller('signController', function ($scope, $http) {
+
+      $scope.login = {};
+
+      $scope.doLogin = function () {
+        console.log('login: ', $scope.login);
+      }
+
+    }).controller('signupController', function ($scope, $http) {
+          $scope.register = {{register|json|safe}};
+
+      $scope.error = false;
+
+      $scope.sms_code = function () {
+        console.log('go send sms.');
+
+        var regex = /(^(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7})$/g;
+
+        if (!$scope.register.phone || !$scope.register.phone.match(regex)) {
+          console.log('phone error');
+          $scope.error = '请输入正确的手机号码';
+          return;
+        }
+
+        console.log('sending sms.');
+
+        var number = $scope.register.phone;
+        console.log('number: ', number, typeof number);
+
+
+        $http.post('/sms/code', {
+          "number": number + ''
+        }).then(function(resp) {
+          location.href = '/';
+        })
+
+        console.log('done sms.');
+      };
+
+
+      $scope.doRegister = function () {
+        console.log('register: ', $scope.register);
+
+        var regex = /(^(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7})$/g;
+
+        if (!$scope.register.phone || !$scope.register.phone.match(regex)) {
+          console.log('phone error');
+          $scope.error = '请输入正确的手机号码';
+          return;
+        }
+
+        $http.post('/register', {
+          phone: $scope.register.phone,
+          name: $scope.register.name,
+          password: $scope.register.password,
+          code: $scope.register.code
+        }).then(function (res) {
+          console.log('res: ', res);
+        })
+
+      };
+
+    }).config(function ($stateProvider, $urlRouterProvider) {
+
+      $urlRouterProvider.otherwise('/register');
+
+      $stateProvider.state('login', {
+        url: '/login',
+        controller: 'signController',
+        templateUrl: '/views/login/login.html'
+      }).state('register', {
+        url: '/register',
+        controller: 'signupController',
+        templateUrl: '/views/login/register.html'
+      });
+
+    });
+</script>
