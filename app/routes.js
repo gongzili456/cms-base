@@ -15,6 +15,7 @@ export default ()=> {
    * Sign routes
    */
   router.post('/sms/code', controllers.sign_controller.send_sms);
+  router.post('/sms/verify_code', controllers.sign_controller.verify_sms);
 
   router.post('/register', controllers.sign_controller.doRegister);
 

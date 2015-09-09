@@ -7,7 +7,7 @@ db:
   port: 3306
 
 redis:
-  host: 121.43.158.216
+  host: "121.43.158.216"
   port: 6379
 
 ucpaas:
