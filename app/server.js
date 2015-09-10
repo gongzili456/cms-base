@@ -18,7 +18,7 @@ let app = koa();
 let router = new routes();
 
 
-app.keys = ['keys', 'keykeys'];
+app.keys = ['bang', 'zhu'];
 app.use(session({
   key: 'bangzhu-admin',
   store: new RedisStore(config.redis),
@@ -59,8 +59,7 @@ app.on('err', function (err) {
   console.error(err);
 });
 
-//app.use(authentication);
-
+app.use(authentication);
 
 //init
 app.use(router.routes());

@@ -29,9 +29,20 @@
     .controller('signController', function ($scope, $http) {
 
       $scope.login = {};
+      $scope.error = false;
 
       $scope.doLogin = function () {
-        console.log('login: ', $scope.login);
+        $http.post('/login', {
+          phone: $scope.login.phone,
+          password: $scope.login.password
+        }).then(function(res) {
+          console.log('res: ', res);
+          if (res.data.status !== 200) {
+            $scope.error = res.data.message;
+          } else {
+            location.href = '/'
+          }
+        });
       }
 
     }).controller('signupController', function ($scope, $http) {
@@ -57,17 +68,22 @@
       };
 
 
-      $scope.verify_code = function(code) {
+      $scope.verify_code = function(code, phone) {
         console.log('code: ', code);
         if (code.length !== 6) {
           $scope.error = '请输入正确的验证码';
           return;
         }
+        if (!phone) {
+          $scope.error = '请输入正确的手机号码';
+          return;
+        }
         $http.post('/sms/verify_code', {
-          code: code
+          code: code,
+          number: phone
         }).then(function(res) {
-          if (res.status !== 200) {
-            $scope.error = res.message;
+          if (res.data.status !== 200) {
+            $scope.error = res.data.message;
           }
         });
       };
@@ -88,14 +104,18 @@
           name: $scope.register.name,
           password: $scope.register.password
         }).then(function (res) {
-          console.log('res: ', res);
+          if (res.data.status !== 200) {
+            $scope.error = res.data.message;
+          } else {
+            location.href = '/'
+          }
         })
 
       };
 
     }).config(function ($stateProvider, $urlRouterProvider) {
 
-      $urlRouterProvider.otherwise('/register');
+      $urlRouterProvider.otherwise('/login');
 
       $stateProvider.state('login', {
         url: '/login',

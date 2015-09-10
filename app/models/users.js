@@ -1,7 +1,7 @@
 "use strict";
 
 export default (sequelize, DataTypes) => {
-  var Admin = sequelize.define('Admin', {
+  var User = sequelize.define("User", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -9,18 +9,28 @@ export default (sequelize, DataTypes) => {
       allowNull: false
     },
     name: DataTypes.STRING,
-    password: DataTypes.STRING,
+    avatar: DataTypes.STRING,
     phone: DataTypes.STRING,
-    type: DataTypes.INTEGER,
+    password: DataTypes.STRING,
+    gender: DataTypes.INTEGER,
+    birthday: DataTypes.DATE,
     status: DataTypes.INTEGER
   }, {
-    tableName: 'bz_admin',
+    tableName: 'bz_users',
     timestamps: true,
     underscored: true,
     classMethods: {
+      associate(models) {
+        User.belongsToMany(models.Tag, {
+          through: "bz_users_tags"
+        })
+      }
     },
     scopes: {
-      active: {
+      thumb: {
+        attributes: ['id', 'name', 'gender', 'birthday']
+      },
+      'active': {
         where: {
           status: 0
         }
@@ -28,5 +38,5 @@ export default (sequelize, DataTypes) => {
     }
   });
 
-  return Admin;
-}
+  return User;
+};

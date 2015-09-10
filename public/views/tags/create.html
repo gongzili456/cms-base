@@ -1,0 +1,20 @@
+
+<table class="table table-bordered table-striped">
+  <thead>
+  <tr>
+    <th>输入标签名称</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>
+      <input class="m-input" type="text" ng-model="tag.name" placeholder="填写名称">
+
+      <button class="btn btn-success" ng-click="create()">添加</button>
+
+      <div ng-show="error" class="alert alert-danger">{{error}}</div>
+
+    </td>
+  </tr>
+  </tbody>
+</table>

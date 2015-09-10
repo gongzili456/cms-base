@@ -102,6 +102,8 @@ let sign_controller = {
     var code = attr.code;
     var number = attr.number;
 
+    debug('attr: ', attr);
+
     var magic = yield redis.get(prefix + number);
 
     debug('magic: ', magic);
@@ -172,7 +174,7 @@ let sign_controller = {
 
     yield user.save();
 
-    yield sign_controller._bindSession(this, user)();
+    yield sign_controller._bindSession.bind(this, user)();
 
     this.body = {
       status: 200,
@@ -183,6 +185,49 @@ let sign_controller = {
 
   _bindSession: function*(admin) {
     this.session.user = admin;
+  },
+
+
+  doSignin: function*() {
+    let attr = yield parse.json(this);
+
+    let phone = attr.phone;
+    let password = attr.password;
+
+    debug('signin: phone => ', phone, 'password: ', password);
+
+    var user = yield Admin.scope('active').find({
+      where: {
+        phone: phone
+      }
+    });
+
+    debug('admin: ', user);
+
+    if (!user) {
+      return this.body = {
+        status: '404',
+        message: '该手机号没有注册'
+      }
+    }
+
+    var hash_pass = hashStr(password);
+
+    debug('hash_pass: ', hash_pass);
+
+    if (hash_pass !== user.password) {
+      return this.body = {
+        status: 403,
+        message: "手机号或密码错误"
+      }
+    }
+
+    yield sign_controller._bindSession.bind(this, user)();
+
+    this.body = {
+      status: 200,
+      data: 'success'
+    }
   }
 
 

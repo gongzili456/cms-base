@@ -28,7 +28,7 @@
 
           <div class="col-md-9">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="验证码" ng-model="register.code" ng-blur="verify_code(register.code)">
+              <input type="text" class="form-control" placeholder="验证码" ng-model="register.code" ng-blur="verify_code(register.code, register.phone)">
             <span class="input-group-btn">
               <button class="btn btn-default" type="button" ng-click="sms_code()">获取验证码</button>
             </span>

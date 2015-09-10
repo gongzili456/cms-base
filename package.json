@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "babel": "^5.6.23",
+    "co": "^4.6.0",
     "co-body": "^4.0.0",
     "co-redis": "^1.2.2",
     "co-views": "^2.1.0",

@@ -1,0 +1,48 @@
+<a class="btn btn-primary btn-lg pull-right" style="margin-top:2px" href="#/create">添加标签</a>
+
+<table class="table table-bordered table-striped">
+  <thead>
+  <tr>
+    <th></th>
+    <th>名字</th>
+    <th>状态</th>
+    <th>创建时间</th>
+    <th>默认</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="item in tags | orderBy:'+id'">
+    <td>{{item.id}}</td>
+    <td ng-copy="copied='已复制'; IO='' ">
+      <input class="m-input" type="text" value={{item.name}} ng-model="item.name" placeholder="点击修改" ng-blur="update_name(item)">
+    </td>
+    <td>{{item.status ? '已删除' : '使用中'}}</td>
+    <td>{{item.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+    <td>{{item.is_default ? '默认' : '非默认'}}</td>
+    <td>
+      <button class="btn {{item.status ? 'btn-primary' : 'btn-danger'}}" ng-click="delete(item)">{{item.status ? '撤销删除' : '删除'}}</button>
+      <button class="btn {{item.is_default ? 'btn-primary' : 'btn-danger'}}" ng-click="updateDefault(item)">{{item.is_default ? '取消默认' : '设置默认'}}</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<nav class="child_center">
+  <ul class="pagination">
+    <li ng-class='{disabled: !hasPrev}'>
+      <a ng-href="/tags/?page={{ hasPrev ? page : page + 1}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li ng-class='{active: {{pg === page+1}}}' ng-repeat="pg in pageArray">
+      <a href="/tags/?page={{pg}}">
+        {{pg}}
+      </a>
+    </li>
+    <li ng-class='{disabled: !hasNext}'>
+      <a ng-href="/tags/?page={{ hasNext ? page+2 : page+1 }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

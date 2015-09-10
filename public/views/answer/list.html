@@ -1,0 +1,45 @@
+<table class="table table-bordered table-striped">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>问题ID</th>
+    <th>正文</th>
+    <th>用户</th>
+    <th>创建时间</th>
+    <th>状态</th>
+    <th>是否采纳</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="item in answers  | orderBy:'-id'">
+    <td>{{item.id}}</td>
+    <td>{{item.Question.id}}</td>
+    <td ng-copy="copied='已复制'; IO='' ">{{item.content}}  <span ng-init="IO='in'" class="fade  {{IO}}">{{copied}}</span></td>
+    <td>{{item.User.name}}</td>
+    <td>{{item.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+    <td>{{item.status ? '已删除' : '使用中'}}</td>
+    <td>{{item.is_accept ? '已采纳' : '未采纳'}}</td>
+    <td><button class="btn {{item.status ? 'btn-primary' : 'btn-danger'}}" ng-click="delete(item)">{{item.status ? '撤销删除' : '删除'}}</button></td>
+  </tr>
+  </tbody>
+</table>
+<nav class="child_center">
+  <ul class="pagination">
+    <li ng-class='{disabled: !hasPrev}'>
+      <a ng-href="/answers/?page={{ hasPrev ? page : page + 1}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li ng-class='{active: {{pg === page+1}}}' ng-repeat="pg in pageArray">
+      <a href="/answers/?page={{pg}}">
+        {{pg}}
+      </a>
+    </li>
+    <li ng-class='{disabled: !hasNext}'>
+      <a ng-href="/answers/?page={{ hasNext ? page+2 : page+1 }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

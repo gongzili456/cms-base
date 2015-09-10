@@ -1,0 +1,51 @@
+{% extends '../layouts/layout.html' %}
+{% block content %}
+<div class="invitation" ng-app="questionApp" ui-view></div>
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+  angular.module('questionApp', ['ui.router'])
+    .controller('questionListController', function($scope, $http) {
+      $scope.questions = {{items | json | safe}};
+  $scope.page = {{page}};
+  $scope.count = {{total}};
+  $scope.totalPage = {{totalPage}};
+  $scope.hasPrev = {{page}} !== 0;
+  $scope.hasNext = {{page}} + 1 !== {{totalPage}};
+  $scope.pageArray = (function(){
+    var arr = [];
+    var totalPage = {{totalPage}};
+  while( totalPage > 0 ){
+    arr.unshift(totalPage--)
+  }
+  return arr;
+  })();
+
+  $scope.delete = function(question) {
+    console.log('question: ', question);
+    $http.put('/questions/' + question.id, {
+      status: question.status ? 0 : 1
+    }).then(function(res) {
+      console.log('res: ', res);
+      if (res.data.status === 200) {
+        console.log('status: ', res.data.status);
+        question.status = res.data.data.status;
+      }
+    });
+  };
+
+
+  }).config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/list');
+    $stateProvider.state('list', {
+      url: '/list',
+      templateUrl: '/views/question/list.html',
+      controller: 'questionListController'
+    });
+  });
+
+
+</script>
