@@ -43,7 +43,16 @@ export default ()=> {
   router.get('/answers', controllers.answer_controller.toManage);
   router.put('/answers/:id', controllers.answer_controller.update);
 
-    // index
+
+  /**
+   * Users routers
+   */
+  router.get('/users', controllers.user_controller.toManage);
+  router.put('/users/:id', controllers.user_controller.update);
+
+  /**
+   * Home routers
+   */
   router.get('/', function *() {
     this.body = yield this.render('home/index');
   });

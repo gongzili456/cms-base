@@ -1,0 +1,65 @@
+{% extends '../layouts/layout.html' %}
+{% block content %}
+<div class="invitation" ng-app="userApp" ui-view></div>
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+  angular.module('userApp', ['ui.router'])
+    .controller('userListController', function($scope, $http) {
+      $scope.users = {{items | json | safe}};
+  $scope.page = {{page}};
+  $scope.count = {{total}};
+  $scope.totalPage = {{totalPage}};
+  $scope.hasPrev = {{page}} !== 0;
+  $scope.hasNext = {{page}} + 1 !== {{totalPage}};
+  $scope.pageArray = (function(){
+    var arr = [];
+    var totalPage = {{totalPage}};
+  while( totalPage > 0 ){
+    arr.unshift(totalPage--)
+  }
+  return arr;
+  })();
+
+
+  $scope.delete = function(user) {
+    console.log('user: ', user);
+    $http.put('/users/' + user.id, {
+      status: user.status ? 0 : 1
+    }).then(function(res) {
+      console.log('res: ', res);
+      if (res.data.status === 200) {
+        console.log('status: ', res.data.status);
+        user.status = res.data.data.status;
+      }
+    });
+  };
+
+
+  $scope.updateDefault = function(tag) {
+    console.log('tag: ', tag);
+    $http.put('/tags/' + tag.id, {
+      is_default: tag.is_default ? false : true
+    }).then(function(res) {
+      console.log('res: ', res);
+      if (res.data.status === 200) {
+        console.log('status: ', res.data.status);
+        tag.is_default = res.data.data.is_default;
+      }
+    });
+  };
+
+  }).config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/list');
+    $stateProvider.state('list', {
+      url: '/list',
+      templateUrl: '/views/user/list.html',
+      controller: 'userListController'
+    });
+  });
+
+
+</script>

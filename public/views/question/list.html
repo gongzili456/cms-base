@@ -15,11 +15,11 @@
   <tbody>
   <tr ng-repeat="item in questions  | orderBy:'-id'">
     <td>{{item.id}}</td>
-    <td ng-copy="copied='已复制'; IO='' ">{{item.content}}  <span ng-init="IO='in'" class="fade  {{IO}}">{{copied}}</span></td>
+    <td>{{item.content}}</td>
     <td><img style="width: 100px;height: 100px;margin-left: 5px;" src="{{img}}" ng-repeat="img in item._images"></td>
-    <td>{{item.answers_count}}</td>
-    <td><span class="label label-info" style="margin-left: 5px;" ng-repeat="tag in item.Tags">{{tag.name}}</span></td>
-    <td>{{item.User.name}}</td>
+    <td><a href="/answers?question_id={{item.id}}">{{item.answers_count}}</a></td>
+    <td><span class="label label-default" style="margin-left: 5px;" ng-repeat="tag in item.Tags"><a href="/questions?tag_id={{tag.id}}">{{tag.name}}</a></span></td>
+    <td><a href="/users?id={{item.User.id}}">{{item.User.name}}</a></td>
     <td>{{item.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
     <td>{{item.status ? '已删除' : '使用中'}}</td>
     <td><button class="btn {{item.status ? 'btn-primary' : 'btn-danger'}}" ng-click="delete(item)">{{item.status ? '撤销删除' : '删除'}}</button></td>
@@ -29,17 +29,17 @@
 <nav class="child_center">
   <ul class="pagination">
     <li ng-class='{disabled: !hasPrev}'>
-      <a ng-href="/questions/?page={{ hasPrev ? page : page + 1}}" aria-label="Previous">
+      <a ng-href="/questions/?page={{ hasPrev ? page : page + 1}}&tag_id={{tag_id}}" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
     <li ng-class='{active: {{pg === page+1}}}' ng-repeat="pg in pageArray">
-      <a href="/questions/?page={{pg}}">
+      <a href="/questions/?page={{pg}}&tag_id={{tag_id}}">
         {{pg}}
       </a>
     </li>
     <li ng-class='{disabled: !hasNext}'>
-      <a ng-href="/questions/?page={{ hasNext ? page+2 : page+1 }}" aria-label="Next">
+      <a ng-href="/questions/?page={{ hasNext ? page+2 : page+1 }}&tag_id={{tag_id}}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>

@@ -10,6 +10,7 @@
   angular.module('questionApp', ['ui.router'])
     .controller('questionListController', function($scope, $http) {
       $scope.questions = {{items | json | safe}};
+  $scope.tag_id = {{tag_id}}
   $scope.page = {{page}};
   $scope.count = {{total}};
   $scope.totalPage = {{totalPage}};

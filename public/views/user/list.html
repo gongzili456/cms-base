@@ -1,0 +1,48 @@
+
+<table class="table table-bordered table-striped">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>名字</th>
+    <th>手机号码</th>
+    <th>头像</th>
+    <th>性别</th>
+    <th>注册时间</th>
+    <th>状态</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="item in users | orderBy:'-id'">
+    <td>{{item.id}}</td>
+    <td>{{item.name}}</td>
+    <td>{{item.phone}}</td>
+    <td><img style="height: 100px;width: 100px;" src="{{item.avatar}}">{{item.avatar ? '' : '无头像'}}</td>
+    <td>{{item.gender === 1 ? '男' : '女'}}</td>
+    <td>{{item.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+    <td>{{item.status ? '已删除' : '使用中'}}</td>
+    <td>
+      <button class="btn {{item.status ? 'btn-primary' : 'btn-danger'}}" ng-click="delete(item)">{{item.status ? '撤销删除' : '删除'}}</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<nav class="child_center">
+  <ul class="pagination">
+    <li ng-class='{disabled: !hasPrev}'>
+      <a ng-href="/users/?page={{ hasPrev ? page : page + 1}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li ng-class='{active: {{pg === page+1}}}' ng-repeat="pg in pageArray">
+      <a href="/users/?page={{pg}}">
+        {{pg}}
+      </a>
+    </li>
+    <li ng-class='{disabled: !hasNext}'>
+      <a ng-href="/users/?page={{ hasNext ? page+2 : page+1 }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

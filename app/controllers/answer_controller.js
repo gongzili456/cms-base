@@ -15,18 +15,26 @@ export default {
     let page = this.query.page - 0 || 1;
     let size = this.query.size - 0 || 20;
 
+    let question_id = this.query.question_id;
 
-    let answers = yield Answer.findAndCountAll({
+    debug('question_id: ', question_id);
+
+    let query = {
       limit: size,
       offset: (page - 1) * size,
       order: 'created_at desc',
+      where: {},
       include: [Question, {
         model: User,
         attributes: ['id', 'name', 'avatar', 'gender', 'birthday', 'created_at']
       }]
-    });
+    };
 
-    debug('answers: ', answers.rows[0]);
+    if (question_id) {
+      query.where.question_id = question_id;
+    }
+
+    let answers = yield Answer.findAndCountAll(query);
 
     let totalPage = Math.ceil(answers.count / size);
 
